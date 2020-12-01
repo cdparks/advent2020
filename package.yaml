@@ -1,0 +1,75 @@
+---
+name: advent2020
+version: 0.1.0.0
+github: "cdparks/advent2020"
+license: BSD3
+author: "Christopher Parks"
+maintainer: "christopher.daniel.parks@gmail.com"
+copyright: "2020 Christopher Parks"
+
+extra-source-files:
+- README.md
+
+description: Please see the README on GitHub at <https://github.com/cdparks/advent2020#readme>
+
+default-extensions:
+  - BangPatterns
+  - DeriveAnyClass
+  - DeriveFoldable
+  - DeriveFunctor
+  - DeriveGeneric
+  - DeriveTraversable
+  - DerivingStrategies
+  - FlexibleContexts
+  - FlexibleInstances
+  - GADTs
+  - GeneralizedNewtypeDeriving
+  - LambdaCase
+  - MultiParamTypeClasses
+  - NamedFieldPuns
+  - NoImplicitPrelude
+  - OverloadedStrings
+  - RankNTypes
+  - RecordWildCards
+  - ScopedTypeVariables
+  - StandaloneDeriving
+  - TypeApplications
+  - TypeFamilies
+
+dependencies:
+- base >= 4.13 && < 5
+
+library:
+  source-dirs: library
+  dependencies:
+    - attoparsec
+    - containers
+    - hashable
+    - extra
+    - filepath
+    - JuicyPixels
+    - microlens
+    - microlens-mtl
+    - monoidal-containers
+    - mtl
+    - split
+    - text
+    - time
+    - unliftio
+    - unliftio-core
+    - unordered-containers
+    - vector
+
+executables:
+  advent2020:
+    main: Main.hs
+    source-dirs: executables
+    ghc-options:
+    - -Werror
+    - -Wall
+    - -O2
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - advent2020
