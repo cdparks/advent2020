@@ -12,7 +12,7 @@ for i in $(seq 1 25); do
     solution=".solutions/$output"
     expected="expected/$output"
     if [ -f "$input" ] && [ -f "$expected" ]; then
-      command="DAY=$i PART=$j stack exec advent < $input | tee $solution && diff $expected $solution"
+      command="DAY=$i PART=$j stack exec advent2020 < $input | tee $solution && diff $expected $solution"
       echo "$command" && sh -c "$command" && printf "\n"
     fi;
   done;
