@@ -6,6 +6,7 @@ where
 import Advent.Prelude
 
 import qualified Advent.Day01 as Day01
+import qualified Advent.Day02 as Day02
 
 main :: IO ()
 main = do
@@ -13,6 +14,7 @@ main = do
   part <- parsePart
   case day of
     1 -> Day01.main part
+    2 -> Day02.main part
     _
       | day <= 25 -> usage "Day not implemented yet"
       | otherwise -> usage "Day out of range"
