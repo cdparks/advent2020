@@ -9,6 +9,8 @@ import Prelude as X hiding (head, init, last, lines, tail, unlines, unwords, wor
 import Control.Applicative as X
 import Control.Monad as X
 import Control.Monad.IO.Unlift as X
+import Data.Bool as X (bool)
+import Data.Char as X (chr, digitToInt, intToDigit, ord)
 import Data.Either as X
 import Data.Foldable as X
 import Data.Hashable as X

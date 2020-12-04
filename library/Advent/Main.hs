@@ -7,6 +7,7 @@ import Advent.Prelude
 
 import qualified Advent.Day01 as Day01
 import qualified Advent.Day02 as Day02
+import qualified Advent.Day03 as Day03
 
 main :: IO ()
 main = do
@@ -15,6 +16,7 @@ main = do
   case day of
     1 -> Day01.main part
     2 -> Day02.main part
+    3 -> Day03.main part
     _
       | day <= 25 -> usage "Day not implemented yet"
       | otherwise -> usage "Day out of range"
