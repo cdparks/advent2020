@@ -6,11 +6,10 @@ where
 import Advent.Prelude
 
 import qualified Data.HashSet as HashSet
-import qualified Data.Text.IO as Text
 
 main :: Part -> IO ()
 main part = do
-  entries <- toEntries <$> Text.getContents
+  entries <- toEntries <$> getContents
   let result = listToMaybe $ findEntries 2020 entries
   maybe (die "no valid set") (print . product) result
  where

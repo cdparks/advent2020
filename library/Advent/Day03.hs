@@ -8,12 +8,11 @@ import Advent.Prelude
 import Advent.Vec2 (Vec2(Vec2))
 import qualified Advent.Vec2 as Vec2
 import qualified Data.HashMap.Strict as HashMap
-import qualified Data.Text.IO as Text
 import Lens.Micro ((%~), (&), (^.))
 
 main :: Part -> IO ()
 main part = do
-  graph <- parse <$> Text.getContents
+  graph <- parse <$> getContents
   print $ product $ count '#' graph <$> slopes
  where
   slopes = case part of

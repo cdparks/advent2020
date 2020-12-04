@@ -7,17 +7,16 @@ where
 
 import Advent.Prelude
 
-import Data.Attoparsec.Text (Parser, char, decimal, endOfInput, letter, parseOnly, skipSpace)
+import Advent.Parse
 import Data.Bits (xor)
 import qualified Data.Text as Text
-import qualified Data.Text.IO as Text
 
 main :: Part -> IO ()
 main part = do
-  result <- parseInput <$> Text.getContents
-  either die (print . length . filter (uncurry check)) result
+  policies <- parseOrDie $ many parseLine
+  print $ length $ filter check policies
  where
-  check = case part of
+  check = uncurry $ case part of
     Part1 -> checkOccurrences
     Part2 -> checkPositions
 
@@ -28,9 +27,6 @@ checkOccurrences Policy {..} password = lo <= n && n <= hi
 checkPositions :: Policy -> Text -> Bool
 checkPositions Policy {..} password = xor (pick lo == el) (pick hi == el)
   where pick = Text.singleton . Text.index password . pred
-
-parseInput :: Text -> Either String [(Policy, Text)]
-parseInput = parseOnly $ skipSpace *> many parseLine <* endOfInput
 
 parseLine :: Parser (Policy, Text)
 parseLine = (,) <$> parsePolicy <*> parsePassword
@@ -43,9 +39,6 @@ parsePolicy = do
 
 parsePassword :: Parser Text
 parsePassword = token $ pack <$> some letter
-
-token :: Parser a -> Parser a
-token parser = parser <* skipSpace
 
 data Policy = Policy
   { lo :: Int
