@@ -40,8 +40,6 @@ update.stack:
 .PHONY: update.tools
 update.tools:
 	stack build --copy-compiler-tool \
-	  apply-refact \
-	  fast-tags \
 	  hlint \
 	  stylish-haskell \
 	  brittany
