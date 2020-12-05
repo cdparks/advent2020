@@ -1,6 +1,10 @@
 module Advent.Prelude
   ( module X
   , Part(..)
+  , both
+  , dup
+  , swap
+  , pairs
   ) where
 
 import Prelude as X hiding (getContents, head, init, last, lines, tail, takeWhile, unlines, unwords, words, (!!))
@@ -42,5 +46,17 @@ import Text.Read as X (readMaybe)
 import UnliftIO.Directory as X
 import UnliftIO.Exception as X
 import UnliftIO.IORef as X
+
+both :: Bifunctor f => (a -> b) -> f a a -> f b b
+both f = bimap f f
+
+dup :: a -> (a, a)
+dup a = (a, a)
+
+swap :: (a, b) -> (b, a)
+swap (a, b) = (b, a)
+
+pairs :: [a] -> [(a, a)]
+pairs xs = zip xs $ drop 1 xs
 
 data Part = Part1 | Part2
