@@ -1,3 +1,5 @@
+{-# LANGUAGE StrictData #-}
+
 module Advent.Day05
   ( main
   ) where
@@ -25,7 +27,7 @@ toPasses = fmap (bimap parse parse . splitAt 7 . unpack) . lines
     _ -> Nothing
 
 findSeat :: Pass -> (Int, Int)
-findSeat = bimap (search min 0 127) (search min 0 7)
+findSeat = bimap (search 127) (search 7)
 
 missingSeat :: [Int] -> Maybe Int
 missingSeat = headMay . mapMaybe (uncurry skipped) . pairs . sort
@@ -35,11 +37,14 @@ missingSeat = headMay . mapMaybe (uncurry skipped) . pairs . sort
     guard $ after - before == 2
     pure $ before + 1
 
-search :: (Int -> Int -> Int) -> Int -> Int -> [Half] -> Int
-search pick lo hi = \case
-  [] -> pick lo hi
-  Lo : xs -> search min lo (hi - half lo hi) xs
-  Hi : xs -> search max (lo + half lo hi) hi xs
+search :: Int -> [Half] -> Int
+search x = done . foldl' step (start x)
+ where
+  start = State min 0
+  done State {..} = pick lo hi
+  step !State {..} = \case
+    Lo -> State min lo (hi - half lo hi)
+    Hi -> State max (lo + half lo hi) hi
 
 half :: Int -> Int -> Int
 half lo hi = (hi - lo + 1) `div` 2
@@ -48,4 +53,11 @@ toSeatId :: Int -> Int -> Int
 toSeatId row col = 8 * row + col
 
 type Pass = ([Half], [Half])
+
 data Half = Hi | Lo
+
+data State = State
+  { pick :: Int -> Int -> Int
+  , lo :: Int
+  , hi :: Int
+  }
