@@ -4,13 +4,13 @@ module Advent.Prelude
   )
 where
 
-import Prelude as X hiding (getContents, head, init, last, lines, tail, unlines, unwords, words, (!!))
+import Prelude as X hiding (getContents, takeWhile, head, init, last, lines, tail, unlines, unwords, words, (!!))
 
 import Control.Applicative as X
 import Control.Monad as X
 import Control.Monad.IO.Unlift as X
 import Data.Bool as X (bool)
-import Data.Char as X (chr, digitToInt, intToDigit, ord)
+import Data.Char as X
 import Data.Either as X
 import Data.Foldable as X
 import Data.Hashable as X
