@@ -10,9 +10,7 @@ import qualified Data.Text as Text
 import Data.Word (Word8)
 
 main :: Part -> IO ()
-main part = do
-  passports <- parseOrDie $ parsePassports part
-  print $ length $ filter (== 127) passports
+main = print . length . filter (== 127) <=< parseOrDie . parsePassports
 
 parsePassports :: Part -> Parser [Word8]
 parsePassports part = parsePassport part `sepBy1` twoNewlines
@@ -58,8 +56,27 @@ parseYear lo hi = parseRange $ pure (lo, hi)
 parseHeight :: Parser ()
 parseHeight = parseRange $ asum
   [ (150, 193) <$ string "cm"
-  , (59, 76) <$ string "in"
+  , ( 59,  76) <$ string "in"
   ]
+
+parseHairColor :: Parser ()
+parseHairColor = char '#' *> parseN 6 isHexDigit
+
+-- brittany-disable-next-binding
+
+parseEyeColor :: Parser ()
+parseEyeColor = void $ foldMap string
+  [ "amb"
+  , "blu"
+  , "brn"
+  , "gry"
+  , "grn"
+  , "hzl"
+  , "oth"
+  ]
+
+parsePassportId :: Parser ()
+parsePassportId = parseN 9 isDigit
 
 parseRange :: Parser (Int, Int) -> Parser ()
 parseRange getRange = do
@@ -68,21 +85,5 @@ parseRange getRange = do
   guard $ lo <= n
   guard $ n <= hi
 
-parseHairColor :: Parser ()
-parseHairColor = char '#' *> replicateM_ 6 (satisfy isHexDigit)
-
-parseEyeColor :: Parser ()
-parseEyeColor = void $ asum
-  [ string "amb"
-  , string "blu"
-  , string "brn"
-  , string "gry"
-  , string "grn"
-  , string "hzl"
-  , string "oth"
-  ]
-
-parsePassportId :: Parser ()
-parsePassportId = do
-  digits <- takeWhile1 isDigit
-  guard $ Text.length digits == 9
+parseN :: Int -> (Char -> Bool) -> Parser ()
+parseN n = guard . (== n) . Text.length <=< takeWhile1
