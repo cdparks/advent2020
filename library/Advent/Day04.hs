@@ -1,6 +1,6 @@
-{-# LANGUAGE StrictData #-}
-
-module Advent.Day04 where
+module Advent.Day04
+  ( main
+  ) where
 
 import Advent.Prelude
 

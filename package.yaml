@@ -52,6 +52,7 @@ library:
     - microlens-mtl
     - monoidal-containers
     - mtl
+    - safe
     - split
     - text
     - time
