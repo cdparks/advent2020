@@ -43,7 +43,7 @@ usage message = do
   die $ unpack $ unlines
     [ message
     , ""
-    , "usage: DAY=N [PART=N] " <> name
+    , "usage: DAY=N [PART=P] " <> name
     , "  where 1 <= N <= 25"
     , "  where 1 <= P <= 2"
     ]
