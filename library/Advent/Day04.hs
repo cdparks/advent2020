@@ -6,6 +6,7 @@ import Advent.Prelude
 
 import Advent.Parse
 import Data.Bits ((.|.))
+import qualified Data.Text as Text
 import Data.Word (Word8)
 
 main :: Part -> IO ()
@@ -83,8 +84,5 @@ parseEyeColor = void $ asum
 
 parsePassportId :: Parser ()
 parsePassportId = do
-  replicateM_ 9 digit
-  endOrFollowedBy isSpace
-
-endOrFollowedBy :: (Char -> Bool) -> Parser ()
-endOrFollowedBy check = maybe (pure ()) (guard . check) =<< peekChar
+  digits <- takeWhile1 isDigit
+  guard $ Text.length digits == 9
