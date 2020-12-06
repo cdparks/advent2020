@@ -13,13 +13,9 @@ main :: Part -> IO ()
 main = print . length . filter (== 127) <=< parseOrDie . parsePassports
 
 parsePassports :: Part -> Parser [Word8]
-parsePassports part = parsePassport part `sepBy1` twoNewlines
-  where twoNewlines = endOfLine *> endOfLine
-
-parsePassport :: Part -> Parser Word8
-parsePassport part = bitor <$> (parseFlag part `sepBy1` oneSpace)
+parsePassports part = parsePassport `sepBy1` twoNewlines
  where
-  oneSpace = void (char ' ') <|> endOfLine
+  parsePassport = bitor <$> (parseFlag part `sepBy1` oneSpace)
   bitor = foldl' (.|.) 0
 
 parseFlag :: Part -> Parser Word8

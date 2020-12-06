@@ -1,9 +1,11 @@
-module Advent.Day05 where
+module Advent.Day05
+  ( main
+  ) where
 
 import Advent.Prelude
 
-import Data.Bits (shift, (.|.))
-import Data.Word (Word8)
+import Advent.Bits (Word8, shift, (.|.))
+import Advent.Tuple (both, pairs)
 
 main :: Part -> IO ()
 main part = do
