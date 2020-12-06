@@ -1,9 +1,10 @@
 module Advent.Parse
   ( parseOrDie
   , token
+  , twoNewlines
+  , oneSpace
   , module X
-  )
-where
+  ) where
 
 import Advent.Prelude
 
@@ -17,3 +18,9 @@ parseOrDie parser = do
 
 token :: Parser a -> Parser a
 token parser = parser <* skipSpace
+
+oneSpace :: Parser ()
+oneSpace = void (char ' ') <|> endOfLine
+
+twoNewlines :: Parser ()
+twoNewlines = endOfLine *> endOfLine
