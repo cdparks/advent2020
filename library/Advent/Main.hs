@@ -10,6 +10,7 @@ import qualified Advent.Day02 as Day02
 import qualified Advent.Day03 as Day03
 import qualified Advent.Day04 as Day04
 import qualified Advent.Day05 as Day05
+import qualified Advent.Day06 as Day06
 
 main :: IO ()
 main = do
@@ -21,6 +22,7 @@ main = do
     3 -> Day03.main part
     4 -> Day04.main part
     5 -> Day05.main part
+    6 -> Day06.main part
     _
       | day <= 25 -> usage "Day not implemented yet"
       | otherwise -> usage "Day out of range"
