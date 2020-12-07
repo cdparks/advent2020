@@ -1,5 +1,6 @@
 module Advent.Parse
   ( parseOrDie
+  , parseAll
   , token
   , twoNewlines
   , oneSpace
@@ -11,10 +12,10 @@ import Advent.Prelude
 import Data.Attoparsec.Text as X
 
 parseOrDie :: Parser a -> IO a
-parseOrDie parser = do
-  result <- run <$> getContents
-  either die pure result
-  where run = parseOnly $ skipSpace *> parser <* skipSpace <* endOfInput
+parseOrDie parser = either die pure =<< parseAll parser <$> getContents
+
+parseAll :: Parser a -> Text -> Either String a
+parseAll parser = parseOnly $ skipSpace *> parser <* skipSpace <* endOfInput
 
 token :: Parser a -> Parser a
 token parser = parser <* skipSpace
