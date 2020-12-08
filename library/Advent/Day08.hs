@@ -2,11 +2,13 @@
 
 module Advent.Day08
   ( main
-  ) where
+  )
+where
 
 import Advent.Prelude
 
-import Advent.Parse hiding (Result)
+import Advent.Parse
+import Data.HashMap.Strict ((!))
 import qualified Data.HashMap.Strict as HashMap
 import qualified Data.HashSet as HashSet
 
@@ -19,22 +21,23 @@ main part = do
       (i, instruction) <- HashMap.toList program
       halted $ run $ HashMap.insert i (swap instruction) program
 
-parseProgram :: Parser Program
-parseProgram = HashMap.fromList . zip [0 ..] <$> many parseInstruction
+parseProgram :: Parser (HashMap Int Instruction)
+parseProgram = HashMap.fromList . zip [0 ..] <$> many instruction
  where
-  parseInstruction = do
-    instruction <- asum [Nop <$ sym "nop", Acc <$ sym "acc", Jmp <$ sym "jmp"]
-    instruction <$> token (signed decimal)
+  instruction = asum
+    [ Acc <$ sym "acc" <*> operand
+    , Jmp <$ sym "jmp" <*> operand
+    , Nop <$ sym "nop" <*> operand
+    ]
+  operand = token $ signed decimal
 
-run :: HashMap Int Instruction -> Result
+run :: HashMap Int Instruction -> Either Int Int
 run program = loop $ Machine 0 0 HashSet.empty
  where
   loop m@Machine {..}
-    | pc `HashSet.member` seen = Looped acc
-    | pc == length program = Halted acc
-    | otherwise = case HashMap.lookup pc program of
-      Nothing -> OutOfBounds acc
-      Just instruction -> step (save m) instruction
+    | pc `HashSet.member` seen = Left acc
+    | pc == length program = Right acc
+    | otherwise = step (save m) $ program ! pc
 
   save m@Machine {..} = m { seen = HashSet.insert pc seen }
 
@@ -49,30 +52,19 @@ data Machine = Machine
   , seen :: HashSet Int
   }
 
-type Program = HashMap Int Instruction
-
 data Instruction
-  = Nop Int
-  | Acc Int
+  = Acc Int
   | Jmp Int
+  | Nop Int
 
 swap :: Instruction -> Instruction
 swap = \case
-  Nop i -> Jmp i
-  Jmp i -> Nop i
   Acc i -> Acc i
+  Jmp i -> Nop i
+  Nop i -> Jmp i
 
-data Result
-  = Halted Int
-  | Looped Int
-  | OutOfBounds Int
+halted :: Alternative f => Either Int Int -> f Int
+halted = either (const empty) pure
 
-halted :: Alternative f => Result -> f Int
-halted = \case
-  Halted i -> pure i
-  _ -> empty
-
-looped :: Alternative f => Result -> f Int
-looped = \case
-  Looped i -> pure i
-  _ -> empty
+looped :: Alternative f => Either Int Int -> f Int
+looped = either pure (const empty)
