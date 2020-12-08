@@ -1,4 +1,6 @@
-module Advent.Day07 where
+module Advent.Day07
+  ( main
+  ) where
 
 import Advent.Prelude
 
@@ -68,8 +70,5 @@ bags = asum
 
 word :: Parser Text
 word = token $ takeWhile1 isAsciiLower
-
-sym :: Text -> Parser ()
-sym = void . token . string
 
 type Graph = HashMap Text [(Int, Text)]

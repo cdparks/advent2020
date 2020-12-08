@@ -2,6 +2,7 @@ module Advent.Parse
   ( parseOrDie
   , parseAll
   , token
+  , sym
   , twoNewlines
   , oneSpace
   , module X
@@ -19,6 +20,9 @@ parseAll parser = parseOnly $ skipSpace *> parser <* skipSpace <* endOfInput
 
 token :: Parser a -> Parser a
 token parser = parser <* skipSpace
+
+sym :: Text -> Parser ()
+sym = void . token . string
 
 oneSpace :: Parser ()
 oneSpace = void (char ' ') <|> endOfLine
