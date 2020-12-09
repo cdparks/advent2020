@@ -1,5 +1,6 @@
 module Advent.Prelude
   ( module X
+  , unwrap
   , Part(..)
   ) where
 
@@ -8,6 +9,7 @@ import Prelude as X hiding (getContents, head, init, last, lines, tail, takeWhil
 import Control.Applicative as X
 import Control.Monad as X
 import Control.Monad.IO.Unlift as X
+import Control.Monad.State.Strict as X
 import Data.Bifunctor as X
 import Data.Bool as X (bool)
 import Data.Char as X
@@ -23,6 +25,7 @@ import Data.List.NonEmpty as X (NonEmpty(..))
 import Data.Map.Strict as X (Map)
 import Data.Maybe as X
 import Data.Proxy as X (Proxy(..))
+import Data.Sequence as X (Seq)
 import Data.Set as X (Set)
 import Data.Text as X (Text, lines, pack, unlines, unpack, unwords, words)
 import Data.Text.IO as X (getContents)
@@ -42,5 +45,8 @@ import Text.Read as X (readMaybe)
 import UnliftIO.Directory as X
 import UnliftIO.Exception as X
 import UnliftIO.IORef as X
+
+unwrap :: String -> Maybe a -> IO a
+unwrap message = maybe (die message) pure
 
 data Part = Part1 | Part2
