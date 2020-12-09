@@ -22,6 +22,7 @@ default-extensions:
   - DerivingStrategies
   - FlexibleContexts
   - FlexibleInstances
+  - FunctionalDependencies
   - GADTs
   - GeneralizedNewtypeDeriving
   - LambdaCase
@@ -29,6 +30,7 @@ default-extensions:
   - NamedFieldPuns
   - NoImplicitPrelude
   - OverloadedStrings
+  - PatternSynonyms
   - RankNTypes
   - RecordWildCards
   - ScopedTypeVariables
