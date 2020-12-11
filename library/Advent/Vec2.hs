@@ -5,9 +5,11 @@ module Advent.Vec2
   , x
   , y
   , scalars
-  , neighbors
-  )
-where
+  , neighbors4
+  , neighbors8
+  , directions4
+  , directions8
+  ) where
 
 import Advent.Prelude
 
@@ -18,7 +20,7 @@ data Vec2 a = Vec2
   , _y :: a
   }
   deriving stock (Eq, Ord, Generic, Functor, Foldable, Traversable)
-  deriving anyclass (Hashable)
+  deriving anyclass Hashable
 
 instance Applicative Vec2 where
   pure a = Vec2 a a
@@ -37,9 +39,18 @@ y = lens _y $ \p v -> p { _y = v }
 scalars :: Vec2 a -> [a]
 scalars v = (v ^.) <$> [x, y]
 
-neighbors :: Num a => Vec2 a -> [Vec2 a]
-neighbors (Vec2 x0 y0) =
-  [Vec2 (x0 + 1) y0, Vec2 (x0 - 1) y0, Vec2 x0 (y0 + 1), Vec2 x0 (y0 - 1)]
+neighbors4 :: (Eq a, Num a) => Vec2 a -> [Vec2 a]
+neighbors4 v = (+ v) <$> directions4
+
+neighbors8 :: (Eq a, Num a) => Vec2 a -> [Vec2 a]
+neighbors8 v = (+ v) <$> directions8
+
+directions4 :: (Eq a, Num a) => [Vec2 a]
+directions4 = filter cardinal directions8
+  where cardinal v = v ^. x == 0 || v ^. y == 0
+
+directions8 :: (Eq a, Num a) => [Vec2 a]
+directions8 = filter (/= 0) $ Vec2 <$> [-1, 0, 1] <*> [-1, 0, 1]
 
 -- brittany-disable-next-binding
 
