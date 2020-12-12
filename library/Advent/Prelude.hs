@@ -19,7 +19,7 @@ import Data.Hashable as X
 import Data.HashMap.Monoidal as X (MonoidalHashMap)
 import Data.HashMap.Strict as X (HashMap)
 import Data.HashSet as X (HashSet)
-import Data.List as X (sort)
+import Data.List as X (uncons, sort)
 import Data.List.Extra as X (nubOrd)
 import Data.List.NonEmpty as X (NonEmpty(..))
 import Data.Map.Strict as X (Map)

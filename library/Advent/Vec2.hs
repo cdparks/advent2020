@@ -5,10 +5,17 @@ module Advent.Vec2
   , x
   , y
   , scalars
+  , scale
+  , right90
+  , left90
   , neighbors4
   , neighbors8
   , directions4
   , directions8
+  , north
+  , east
+  , west
+  , south
   ) where
 
 import Advent.Prelude
@@ -36,21 +43,42 @@ x = lens _x $ \p v -> p { _x = v }
 y :: Lens' (Vec2 a) a
 y = lens _y $ \p v -> p { _y = v }
 
+scale :: Num a => a -> Vec2 a -> Vec2 a
+scale s v = Vec2 (v ^. x * s) (v ^. y * s)
+
+right90 :: Num a => Vec2 a -> Vec2 a
+right90 v = Vec2 (v ^. y) (negate $ v ^. x)
+
+left90 :: Num a => Vec2 a -> Vec2 a
+left90 v = Vec2 (negate $ v ^. y) (v ^. x)
+
 scalars :: Vec2 a -> [a]
 scalars v = (v ^.) <$> [x, y]
 
-neighbors4 :: (Eq a, Num a) => Vec2 a -> [Vec2 a]
+neighbors4 :: Num a => Vec2 a -> [Vec2 a]
 neighbors4 v = (+ v) <$> directions4
 
-neighbors8 :: (Eq a, Num a) => Vec2 a -> [Vec2 a]
+neighbors8 :: Num a => Vec2 a -> [Vec2 a]
 neighbors8 v = (+ v) <$> directions8
 
-directions4 :: (Eq a, Num a) => [Vec2 a]
-directions4 = filter cardinal directions8
-  where cardinal v = v ^. x == 0 || v ^. y == 0
+directions4 :: Num a => [Vec2 a]
+directions4 = [north 1, east 1, south 1, west 1]
 
-directions8 :: (Eq a, Num a) => [Vec2 a]
-directions8 = filter (/= 0) $ Vec2 <$> [-1, 0, 1] <*> [-1, 0, 1]
+directions8 :: Num a => [Vec2 a]
+directions8 = directions4 <> zipWith (+) directions4 rotated
+  where rotated = take 4 $ drop 1 $ cycle directions4
+
+north :: Num a => a -> Vec2 a
+north n = Vec2 0 n
+
+east :: Num a => a -> Vec2 a
+east n = Vec2 n 0
+
+west :: Num a => a -> Vec2 a
+west n = Vec2 (-n) 0
+
+south :: Num a => a -> Vec2 a
+south n = Vec2 0 (-n)
 
 -- brittany-disable-next-binding
 
