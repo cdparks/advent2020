@@ -16,7 +16,8 @@ module Advent.Vec2
   , east
   , west
   , south
-  ) where
+  )
+where
 
 import Advent.Prelude
 
@@ -44,16 +45,16 @@ y :: Lens' (Vec2 a) a
 y = lens _y $ \p v -> p { _y = v }
 
 scale :: Num a => a -> Vec2 a -> Vec2 a
-scale s v = Vec2 (v ^. x * s) (v ^. y * s)
+scale s = fmap (s *)
+
+scalars :: Vec2 a -> [a]
+scalars v = (v ^.) <$> [x, y]
 
 right90 :: Num a => Vec2 a -> Vec2 a
 right90 v = Vec2 (v ^. y) (negate $ v ^. x)
 
 left90 :: Num a => Vec2 a -> Vec2 a
 left90 v = Vec2 (negate $ v ^. y) (v ^. x)
-
-scalars :: Vec2 a -> [a]
-scalars v = (v ^.) <$> [x, y]
 
 neighbors4 :: Num a => Vec2 a -> [Vec2 a]
 neighbors4 v = (+ v) <$> directions4

@@ -5,6 +5,7 @@ module Advent.Vec3
   , x
   , y
   , z
+  , scale
   , scalars
   )
 where
@@ -43,6 +44,9 @@ y = lens _y $ \v s -> v { _y = s }
 
 z :: Lens' (Vec3 a) a
 z = lens _z $ \v s -> v { _z = s }
+
+scale :: Num a => a -> Vec3 a -> Vec3 a
+scale s = fmap (s *)
 
 scalars :: Vec3 a -> [a]
 scalars v = (v ^.) <$> [x, y, z]
