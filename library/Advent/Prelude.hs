@@ -38,6 +38,7 @@ import Prelude as X hiding
   )
 
 import Control.Applicative as X
+import Control.Arrow as X ((&&&))
 import Control.Monad as X
 import Control.Monad.IO.Unlift as X
 import Control.Monad.State.Strict as X
@@ -52,7 +53,7 @@ import Data.HashMap.Monoidal as X (MonoidalHashMap)
 import Data.HashMap.Strict as X (HashMap)
 import Data.HashSet as X (HashSet)
 import Data.List as X (sort, uncons)
-import Data.List.Extra as X (nubOrd)
+import Data.List.Extra as X (maximumOn, minimumOn, nubOrd)
 import Data.List.NonEmpty as X (NonEmpty(..))
 import Data.Map.Strict as X (Map)
 import Data.Maybe as X
