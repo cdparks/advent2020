@@ -19,7 +19,7 @@ main part = do
 toEntries :: Text -> HashSet Int
 toEntries contents = HashSet.fromList $ do
   line <- lines contents
-  maybeToList $ readMaybe @Int $ unpack line
+  maybeToList $ readMaybe line
 
 sumsTo :: Int -> Int -> HashSet Int -> [[Int]]
 sumsTo total n entries

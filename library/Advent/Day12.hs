@@ -6,6 +6,7 @@ import Advent.Prelude hiding (Left, Right)
 
 import Advent.Vec2 (Vec2(..))
 import qualified Advent.Vec2 as Vec2
+import qualified Data.Text as Text
 import Lens.Micro (Lens', lens)
 import Lens.Micro.Mtl (use, (%=), (+=))
 
@@ -20,7 +21,7 @@ parse :: Text -> [Instruction]
 parse = mapMaybe parseLine . lines
  where
   parseLine line = do
-    (c, rest) <- uncons $ unpack line
+    (c, rest) <- Text.uncons line
     n <- readMaybe rest
     case c of
       'F' -> pure $ Head n
