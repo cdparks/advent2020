@@ -51,6 +51,7 @@ import Data.Foldable as X
 import Data.Hashable as X
 import Data.HashMap.Monoidal as X (MonoidalHashMap)
 import Data.HashMap.Strict as X (HashMap)
+import Data.IntMap.Strict as X (IntMap)
 import Data.HashSet as X (HashSet)
 import Data.List as X (sort, uncons)
 import Data.List.Extra as X (maximumOn, minimumOn, nubOrd)
