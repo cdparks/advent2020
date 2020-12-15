@@ -2,6 +2,7 @@ module Advent.Prelude
   ( module X
   , Part(..)
   , die
+  , forAccum
   , getProgName
   , lookupEnv
   , print
@@ -51,8 +52,8 @@ import Data.Foldable as X
 import Data.Hashable as X
 import Data.HashMap.Monoidal as X (MonoidalHashMap)
 import Data.HashMap.Strict as X (HashMap)
-import Data.IntMap.Strict as X (IntMap)
 import Data.HashSet as X (HashSet)
+import Data.IntMap.Strict as X (IntMap)
 import Data.List as X (sort, uncons)
 import Data.List.Extra as X (maximumOn, minimumOn, nubOrd)
 import Data.List.NonEmpty as X (NonEmpty(..))
@@ -80,6 +81,10 @@ import UnliftIO.Exception as X
 import UnliftIO.IORef as X
 
 data Part = Part1 | Part2
+
+-- | foldM with the functional argument last
+forAccum :: (Foldable t, Monad m) => s -> t a -> (s -> a -> m s) -> m s
+forAccum s t f = foldM f s t
 
 -- | Unwrap a 'Maybe' or crash with message
 unwrap :: forall a . Text -> Maybe a -> IO a
