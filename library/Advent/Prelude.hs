@@ -11,8 +11,7 @@ module Advent.Prelude
   , readOrDie
   , tshow
   , unwrap
-  )
-where
+  ) where
 
 import Prelude as X hiding
   ( appendFile
@@ -55,7 +54,7 @@ import Data.HashMap.Monoidal as X (MonoidalHashMap)
 import Data.HashMap.Strict as X (HashMap)
 import Data.HashSet as X (HashSet)
 import Data.IntMap.Strict as X (IntMap)
-import Data.List as X (sort, sortOn, uncons)
+import Data.List as X (sort, sortOn, transpose, uncons)
 import Data.List.Extra as X (maximumOn, minimumOn, nubOrd)
 import Data.List.NonEmpty as X (NonEmpty(..))
 import Data.Map.Strict as X (Map)

@@ -50,6 +50,7 @@ library:
     - hashable
     - extra
     - filepath
+    - fingertree
     - JuicyPixels
     - microlens
     - microlens-mtl

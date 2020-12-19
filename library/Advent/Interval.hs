@@ -9,10 +9,12 @@ module Advent.Interval
   , combine
   , contains
   , unit
-  )
-where
+  , toPair
+  , convert
+  ) where
 
 import Advent.Prelude hiding (combine)
+import qualified Data.IntervalMap.FingerTree as IntervalMap
 
 data Interval = Interval
   { _lo :: Int
@@ -36,6 +38,9 @@ lo = _lo
 hi :: Interval -> Int
 hi = _hi
 
+toPair :: Interval -> (Int, Int)
+toPair Interval {..} = (_lo, _hi)
+
 overlaps :: Interval -> Interval -> Bool
 overlaps i = maybe False (const True) . combine i
 
@@ -49,3 +54,6 @@ unit x = Interval x x
 
 contains :: Interval -> Interval -> Bool
 contains (Interval lo1 hi1) (Interval lo2 hi2) = lo1 <= lo2 && hi2 <= hi1
+
+convert :: Interval -> IntervalMap.Interval Int
+convert Interval {..} = IntervalMap.Interval _lo _hi
